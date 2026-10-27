@@ -1,0 +1,63 @@
+# ============================================================
+# codeLook 项目快照配置（Rust 项目：click_automation）
+# 脚本位于 models/codeshow/，输出落在 models/codeshow/segments/
+# ============================================================
+# 三类目录：
+#   exclude_dirs       —— 路径和内容都不输出
+#   skip_content_dirs  —— 只输出路径，不读内容
+#   其他               —— 读路径 + 读内容（受 default_extensions 限制）
+#
+# 路径统一用"相对项目根 + 正斜杠"。
+# should_exclude 同时匹配"完整路径 / 任意前缀 / 任意单段"，
+# 所以写 "target" 即可排除任意深度的 target 目录。
+# ============================================================
+
+# ---------- 输出 ----------
+split_size: 100000
+segments_dir: segments       # 相对 models/codeshow/，即 models/codeshow/segments/
+compact: true                # 去掉空行和行尾空白
+
+# ---------- 全局默认扩展名 ----------
+# 只有这些扩展名的文件（在未排除、未跳过的目录里）才会真正读内容
+default_extensions: [rs, md, yaml, yml, toml, json]
+
+# ---------- 完全排除：路径和内容都不输出 ----------
+exclude_dirs:
+  # 脚本自身（避免快照包含自己 + segments 输出）
+  - models/codeshow
+  # 编译产物（此项目 target 目录非常庞大，必须排除）
+  - target
+  # 版本控制 / AI 工具元数据
+  - .git
+  - .agents
+  - .codex
+  - .cargo
+  - .vscode
+  - .idea
+  # 第三方 vendored 依赖（rapidocr-core 等）
+  # 需要看 OCR 核心实现时，删掉这一行即可
+  - vendor
+  # 运行期缓存 / 临时目录
+  - .runtime-cache
+  - .portal_recycle
+  - .portal_tmp
+  - __pycache__
+  - node_modules
+  - dist
+  - build
+  # 项目根下的旧快照（防止自包含）
+  - outfile.txt
+
+# ---------- 只输出路径，不读内容 ----------
+skip_content_dirs:
+  # onnx 模型 / 字典（二进制或数据文件，不读内容）
+  - models
+  # 构建脚本（ps1/bat 体积小，通常不需要看内容）
+  - scripts
+
+# ---------- 精细控制 ----------
+# 为某些具体目录单独指定扩展名（优先级高于 default_extensions）。
+# 例：patches/clipboard_tools 下只读 README.md，跳过 ps1/json。
+content_rules:
+  - prefix: patches/clipboard_tools
+    extensions: [md]

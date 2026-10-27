@@ -1,0 +1,20 @@
+{
+  "id": "clipboard-tools",
+  "version": "1.0.0",
+  "name": "TXT 内容工具",
+  "actions": [
+    {
+      "id": "normalize-clipboard",
+      "name": "去空格和重复",
+      "command": "normalize-clipboard.ps1"
+    }
+  ],
+  "tabs": [
+    {
+      "id": "clipboard-report",
+      "title": "TXT 内容展示和 PNG 对应数量",
+      "command": "clipboard-report.ps1",
+      "refresh_seconds": 5
+    }
+  ]
+}

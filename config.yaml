@@ -1,0 +1,25 @@
+coordinate_categories: []
+actions:
+- name: 动作 1
+  hotkey: ''
+  steps:
+  - !Click
+    - 1693
+    - 142
+  - !Click
+    - 1046
+    - 53
+  - !Click
+    - 275
+    - 927
+  - !Click
+    - 1594
+    - 0
+run_config:
+  cooldown_ms: 1000
+  default_action: 0
+  hotkey_overrides: []
+passwd: true
+visible_tabs:
+- actions
+- run
